@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1505pt" height="1055pt" viewBox="0.00 0.00 1505.00 1055.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1051)">
+<title>MultibodyPlant</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1051 1501,-1051 1501,4 -4,4"/>
+<text text-anchor="middle" x="748.5" y="-1031.8" font-family="Times,serif" font-size="14.00">plant</text>
+<g id="clust1" class="cluster">
+<title>cluster0</title>
+<polygon fill="none" stroke="black" points="228,-941 228,-1016 392,-1016 392,-941 228,-941"/>
+<text text-anchor="middle" x="310" y="-948.8" font-family="Times,serif" font-size="14.00">WorldModelInstance</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster1</title>
+<polygon fill="none" stroke="black" points="1315,-8 1315,-83 1489,-83 1489,-8 1315,-8"/>
+<text text-anchor="middle" x="1402" y="-15.8" font-family="Times,serif" font-size="14.00">DefaultModelInstance</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster2</title>
+<polygon fill="none" stroke="black" points="8,-833 8,-908 106,-908 106,-833 8,-833"/>
+<text text-anchor="middle" x="57" y="-840.8" font-family="Times,serif" font-size="14.00">robot_table</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster3</title>
+<polygon fill="none" stroke="black" points="263,-833 263,-908 358,-908 358,-833 263,-833"/>
+<text text-anchor="middle" x="310.5" y="-840.8" font-family="Times,serif" font-size="14.00">work_table</text>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster4</title>
+<polygon fill="none" stroke="black" points="378,-116 378,-908 730,-908 730,-116 378,-116"/>
+<text text-anchor="middle" x="554" y="-123.8" font-family="Times,serif" font-size="14.00">iiwa</text>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster5</title>
+<polygon fill="none" stroke="black" points="738,-8 738,-191 1307,-191 1307,-8 738,-8"/>
+<text text-anchor="middle" x="1022.5" y="-15.8" font-family="Times,serif" font-size="14.00">gripper</text>
+</g>
+<!-- body0 -->
+<g id="node1" class="node">
+<title>body0</title>
+<ellipse fill="none" stroke="black" cx="310" cy="-990" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="310" y="-986.3" font-family="Times,serif" font-size="14.00">WorldBody</text>
+</g>
+<!-- \n -->
+<g id="node2" class="node">
+<title>\n</title>
+<ellipse fill="none" stroke="black" cx="1402" cy="-57" rx="27" ry="18"/>
+</g>
+<!-- body1 -->
+<g id="node3" class="node">
+<title>body1</title>
+<ellipse fill="none" stroke="black" cx="57" cy="-882" rx="27.9" ry="18"/>
+<text text-anchor="middle" x="57" y="-878.3" font-family="Times,serif" font-size="14.00">link</text>
+</g>
+<!-- body1&#45;&gt;body0 -->
+<g id="edge1" class="edge">
+<title>body1-&gt;body0</title>
+<path fill="none" stroke="black" d="M59.36,-900.16C61.75,-911.07 66.52,-924.66 76,-933 100.84,-954.84 184.47,-971.09 244.66,-980.3"/>
+<polygon fill="black" stroke="black" points="244.45,-983.81 254.86,-981.83 245.49,-976.89 244.45,-983.81"/>
+<text text-anchor="middle" x="191" y="-921.8" font-family="Times,serif" font-size="14.00">WorldBody_welds_to_link [weld]</text>
+</g>
+<!-- body2 -->
+<g id="node4" class="node">
+<title>body2</title>
+<ellipse fill="none" stroke="black" cx="310" cy="-882" rx="27.9" ry="18"/>
+<text text-anchor="middle" x="310" y="-878.3" font-family="Times,serif" font-size="14.00">link</text>
+</g>
+<!-- body2&#45;&gt;body0 -->
+<g id="edge2" class="edge">
+<title>body2-&gt;body0</title>
+<path fill="none" stroke="black" d="M310,-900.03C310,-916.62 310,-942.12 310,-961.57"/>
+<polygon fill="black" stroke="black" points="306.5,-961.66 310,-971.66 313.5,-961.66 306.5,-961.66"/>
+<text text-anchor="middle" x="425" y="-921.8" font-family="Times,serif" font-size="14.00">WorldBody_welds_to_link [weld]</text>
+</g>
+<!-- body3 -->
+<g id="node5" class="node">
+<title>body3</title>
+<ellipse fill="none" stroke="black" cx="563" cy="-882" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="563" y="-878.3" font-family="Times,serif" font-size="14.00">iiwa_link_0</text>
+</g>
+<!-- body3&#45;&gt;body0 -->
+<g id="edge12" class="edge">
+<title>body3-&gt;body0</title>
+<path fill="none" stroke="black" d="M559.55,-900.2C556.48,-911.13 550.89,-924.72 541,-933 496.6,-970.18 431.46,-983.42 381.67,-987.8"/>
+<polygon fill="black" stroke="black" points="381.3,-984.32 371.61,-988.59 381.85,-991.3 381.3,-984.32"/>
+<text text-anchor="middle" x="692" y="-921.8" font-family="Times,serif" font-size="14.00">WorldBody_welds_to_iiwa_link_0 [weld]</text>
+</g>
+<!-- body4 -->
+<g id="node6" class="node">
+<title>body4</title>
+<ellipse fill="none" stroke="black" cx="563" cy="-774" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="563" y="-770.3" font-family="Times,serif" font-size="14.00">iiwa_link_1</text>
+</g>
+<!-- body4&#45;&gt;body3 -->
+<g id="edge3" class="edge">
+<title>body4-&gt;body3</title>
+<path fill="none" stroke="black" d="M563,-792.03C563,-808.62 563,-834.12 563,-853.57"/>
+<polygon fill="black" stroke="black" points="559.5,-853.66 563,-863.66 566.5,-853.66 559.5,-853.66"/>
+<text text-anchor="middle" x="629.5" y="-813.8" font-family="Times,serif" font-size="14.00">iiwa_joint_1 [weld]</text>
+</g>
+<!-- body5 -->
+<g id="node7" class="node">
+<title>body5</title>
+<ellipse fill="none" stroke="black" cx="563" cy="-687" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="563" y="-683.3" font-family="Times,serif" font-size="14.00">iiwa_link_2</text>
+</g>
+<!-- body5&#45;&gt;body4 -->
+<g id="edge4" class="edge">
+<title>body5-&gt;body4</title>
+<path fill="none" stroke="black" d="M563,-705.2C563,-716.84 563,-732.45 563,-745.76"/>
+<polygon fill="black" stroke="black" points="559.5,-745.82 563,-755.82 566.5,-745.82 559.5,-745.82"/>
+<text text-anchor="middle" x="642.5" y="-726.8" font-family="Times,serif" font-size="14.00">iiwa_joint_2 [revolute]</text>
+</g>
+<!-- body6 -->
+<g id="node8" class="node">
+<title>body6</title>
+<ellipse fill="none" stroke="black" cx="563" cy="-600" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="563" y="-596.3" font-family="Times,serif" font-size="14.00">iiwa_link_3</text>
+</g>
+<!-- body6&#45;&gt;body5 -->
+<g id="edge5" class="edge">
+<title>body6-&gt;body5</title>
+<path fill="none" stroke="black" d="M563,-618.2C563,-629.84 563,-645.45 563,-658.76"/>
+<polygon fill="black" stroke="black" points="559.5,-658.82 563,-668.82 566.5,-658.82 559.5,-658.82"/>
+<text text-anchor="middle" x="629.5" y="-639.8" font-family="Times,serif" font-size="14.00">iiwa_joint_3 [weld]</text>
+</g>
+<!-- body7 -->
+<g id="node9" class="node">
+<title>body7</title>
+<ellipse fill="none" stroke="black" cx="563" cy="-513" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="563" y="-509.3" font-family="Times,serif" font-size="14.00">iiwa_link_4</text>
+</g>
+<!-- body7&#45;&gt;body6 -->
+<g id="edge6" class="edge">
+<title>body7-&gt;body6</title>
+<path fill="none" stroke="black" d="M563,-531.2C563,-542.84 563,-558.45 563,-571.76"/>
+<polygon fill="black" stroke="black" points="559.5,-571.82 563,-581.82 566.5,-571.82 559.5,-571.82"/>
+<text text-anchor="middle" x="642.5" y="-552.8" font-family="Times,serif" font-size="14.00">iiwa_joint_4 [revolute]</text>
+</g>
+<!-- body8 -->
+<g id="node10" class="node">
+<title>body8</title>
+<ellipse fill="none" stroke="black" cx="563" cy="-426" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="563" y="-422.3" font-family="Times,serif" font-size="14.00">iiwa_link_5</text>
+</g>
+<!-- body8&#45;&gt;body7 -->
+<g id="edge7" class="edge">
+<title>body8-&gt;body7</title>
+<path fill="none" stroke="black" d="M563,-444.2C563,-455.84 563,-471.45 563,-484.76"/>
+<polygon fill="black" stroke="black" points="559.5,-484.82 563,-494.82 566.5,-484.82 559.5,-484.82"/>
+<text text-anchor="middle" x="629.5" y="-465.8" font-family="Times,serif" font-size="14.00">iiwa_joint_5 [weld]</text>
+</g>
+<!-- body9 -->
+<g id="node11" class="node">
+<title>body9</title>
+<ellipse fill="none" stroke="black" cx="567" cy="-339" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="567" y="-335.3" font-family="Times,serif" font-size="14.00">iiwa_link_6</text>
+</g>
+<!-- body9&#45;&gt;body8 -->
+<g id="edge8" class="edge">
+<title>body9-&gt;body8</title>
+<path fill="none" stroke="black" d="M566.19,-357.2C565.64,-368.84 564.91,-384.45 564.28,-397.76"/>
+<polygon fill="black" stroke="black" points="560.78,-397.67 563.81,-407.82 567.77,-398 560.78,-397.67"/>
+<text text-anchor="middle" x="644.5" y="-378.8" font-family="Times,serif" font-size="14.00">iiwa_joint_6 [revolute]</text>
+</g>
+<!-- body10 -->
+<g id="node12" class="node">
+<title>body10</title>
+<ellipse fill="none" stroke="black" cx="578" cy="-252" rx="61.99" ry="18"/>
+<text text-anchor="middle" x="578" y="-248.3" font-family="Times,serif" font-size="14.00">iiwa_link_7</text>
+</g>
+<!-- body10&#45;&gt;body9 -->
+<g id="edge9" class="edge">
+<title>body10-&gt;body9</title>
+<path fill="none" stroke="black" d="M575.77,-270.2C574.27,-281.84 572.25,-297.45 570.52,-310.76"/>
+<polygon fill="black" stroke="black" points="567.04,-310.46 569.22,-320.82 573.98,-311.36 567.04,-310.46"/>
+<text text-anchor="middle" x="639.5" y="-291.8" font-family="Times,serif" font-size="14.00">iiwa_joint_7 [weld]</text>
+</g>
+<!-- body11 -->
+<g id="node13" class="node">
+<title>body11</title>
+<ellipse fill="none" stroke="black" cx="629" cy="-165" rx="92.88" ry="18"/>
+<text text-anchor="middle" x="629" y="-161.3" font-family="Times,serif" font-size="14.00">iiwa_link_ee_kuka</text>
+</g>
+<!-- body11&#45;&gt;body10 -->
+<g id="edge10" class="edge">
+<title>body11-&gt;body10</title>
+<path fill="none" stroke="black" d="M612.6,-182.97C607.83,-188.45 602.87,-194.74 599,-201 594.55,-208.21 590.63,-216.53 587.42,-224.29"/>
+<polygon fill="black" stroke="black" points="584.13,-223.1 583.75,-233.69 590.65,-225.65 584.13,-223.1"/>
+<text text-anchor="middle" x="669.5" y="-204.8" font-family="Times,serif" font-size="14.00">iiwa_joint_ee [weld]</text>
+</g>
+<!-- body12 -->
+<g id="node14" class="node">
+<title>body12</title>
+<ellipse fill="none" stroke="black" cx="452" cy="-165" rx="66.09" ry="18"/>
+<text text-anchor="middle" x="452" y="-161.3" font-family="Times,serif" font-size="14.00">iiwa_link_ee</text>
+</g>
+<!-- body12&#45;&gt;body10 -->
+<g id="edge11" class="edge">
+<title>body12-&gt;body10</title>
+<path fill="none" stroke="black" d="M451.61,-183.28C452.28,-193.96 454.92,-207.25 463,-216 475.43,-229.45 492.85,-237.79 510.38,-242.95"/>
+<polygon fill="black" stroke="black" points="509.54,-246.34 520.1,-245.49 511.31,-239.57 509.54,-246.34"/>
+<text text-anchor="middle" x="525" y="-204.8" font-family="Times,serif" font-size="14.00">tool0_joint [weld]</text>
+</g>
+<!-- body13 -->
+<g id="node15" class="node">
+<title>body13</title>
+<ellipse fill="none" stroke="black" cx="779" cy="-165" rx="33.29" ry="18"/>
+<text text-anchor="middle" x="779" y="-161.3" font-family="Times,serif" font-size="14.00">body</text>
+</g>
+<!-- body13&#45;&gt;body10 -->
+<g id="edge15" class="edge">
+<title>body13-&gt;body10</title>
+<path fill="none" stroke="black" d="M770.27,-182.45C763.49,-193.62 753.05,-207.81 740,-216 712.74,-233.11 678.37,-241.95 648.32,-246.48"/>
+<polygon fill="black" stroke="black" points="647.73,-243.03 638.3,-247.86 648.69,-249.96 647.73,-243.03"/>
+<text text-anchor="middle" x="875" y="-204.8" font-family="Times,serif" font-size="14.00">iiwa_link_7_welds_to_body [weld]</text>
+</g>
+<!-- body14 -->
+<g id="node16" class="node">
+<title>body14</title>
+<ellipse fill="none" stroke="black" cx="1049" cy="-57" rx="58.49" ry="18"/>
+<text text-anchor="middle" x="1049" y="-53.3" font-family="Times,serif" font-size="14.00">left_finger</text>
+</g>
+<!-- body14&#45;&gt;body13 -->
+<g id="edge13" class="edge">
+<title>body14-&gt;body13</title>
+<path fill="none" stroke="black" d="M1045.59,-75.25C1042.54,-86.2 1036.95,-99.8 1027,-108 996.01,-133.54 883.77,-151.07 821.44,-159.07"/>
+<polygon fill="black" stroke="black" points="820.64,-155.64 811.15,-160.36 821.51,-162.59 820.64,-155.64"/>
+<text text-anchor="middle" x="1163" y="-96.8" font-family="Times,serif" font-size="14.00">left_finger_sliding_joint [prismatic]</text>
+</g>
+<!-- body15 -->
+<g id="node17" class="node">
+<title>body15</title>
+<ellipse fill="none" stroke="black" cx="812" cy="-57" rx="65.79" ry="18"/>
+<text text-anchor="middle" x="812" y="-53.3" font-family="Times,serif" font-size="14.00">right_finger</text>
+</g>
+<!-- body15&#45;&gt;body13 -->
+<g id="edge14" class="edge">
+<title>body15-&gt;body13</title>
+<path fill="none" stroke="black" d="M782.54,-73.46C775.52,-78.67 768.93,-85.18 765,-93 758.01,-106.91 761.07,-123.99 766.09,-137.91"/>
+<polygon fill="black" stroke="black" points="762.94,-139.47 769.97,-147.4 769.42,-136.82 762.94,-139.47"/>
+<text text-anchor="middle" x="896" y="-96.8" font-family="Times,serif" font-size="14.00">right_finger_sliding_joint [prismatic]</text>
+</g>
+</g>
+</svg>
