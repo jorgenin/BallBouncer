@@ -8,14 +8,15 @@ from pydrake.all import (
     Adder, AddMultibodyPlantSceneGraph, Demultiplexer, DiagramBuilder, 
     InverseDynamicsController, MakeMultibodyStateToWsgStateSystem, 
     MeshcatVisualizerCpp, MultibodyPlant,Parser, PassThrough, 
-    SchunkWsgPositionController, StateInterpolatorWithDiscreteDerivative
+    SchunkWsgPositionController, StateInterpolatorWithDiscreteDerivative,
+    RigidTransform,RollPitchYaw,ConnectMeshcatVisualizer, Simulator,RevoluteJoint
 )
 from manipulation.meshcat_cpp_utils import StartMeshcat
 from manipulation.scenarios import AddIiwa, AddWsg, AddRgbdSensors
 from manipulation.utils import FindResource
-from manipulation import running_as_notebook
 
-if running_as_notebook and sys.platform == "linux" and os.getenv("DISPLAY") is None:
+
+if  os.getenv("DISPLAY") is None:
     from pyvirtualdisplay import Display
     virtual_display = Display(visible=0, size=(1400, 900))
     virtual_display.start()
@@ -28,9 +29,23 @@ def MakeManipulationStation(time_step=0.002):
     plant, scene_graph = AddMultibodyPlantSceneGraph(
         builder, time_step=time_step)
     iiwa = AddIiwa(plant)
-    wsg = AddWsg(plant, iiwa)
-    Parser(plant).AddModelFromFile(
+    #Remove the WSG Manipulator
+    #wsg = AddWsg(plant, iiwa)
+    # Set default positions:
+    q0 = [0.0, np.pi/4, 0, -1.2, 0, -np.pi/4, 0]
+    index = 0
+    for joint_index in plant.GetJointIndices(iiwa):
+        joint = plant.get_mutable_joint(joint_index)
+        if isinstance(joint,RevoluteJoint):
+            joint.set_default_angle(q0[index])
+            index += 1
+    parser = Parser(plant)
+    parser.AddModelFromFile(
         FindResource("models/camera_box.sdf"), "camera0")
+
+    parser.AddModelFromFile("models/floor.sdf")
+    parser.AddModelFromFile("models/paddle.sdf")
+    plant.WeldFrames(plant.GetFrameByName("iiwa_link_7"), plant.GetFrameByName("base_link"), RigidTransform(RollPitchYaw(0, -np.pi/2, 0), [0, 0, 0.25]))
     plant.Finalize()
 
     num_iiwa_positions = plant.num_positions(iiwa)
@@ -50,8 +65,8 @@ def MakeManipulationStation(time_step=0.002):
 
     # Make the plant for the iiwa controller to use.
     controller_plant = MultibodyPlant(time_step=time_step)
-    controller_iiwa = AddIiwa(controller_plant)
-    AddWsg(controller_plant, controller_iiwa, welded=True)
+    AddIiwa(controller_plant)
+    #AddWsg(controller_plant, controller_iiwa, welded=True)
     controller_plant.Finalize()
 
     # Add the iiwa controller
@@ -94,25 +109,25 @@ def MakeManipulationStation(time_step=0.002):
     #builder.ExportOutput(adder.get_output_port(), "iiwa_torque_measured")
 
     # Wsg controller.
-    wsg_controller = builder.AddSystem(SchunkWsgPositionController())
-    wsg_controller.set_name("wsg_controller")
-    builder.Connect(
-        wsg_controller.get_generalized_force_output_port(),             
-        plant.get_actuation_input_port(wsg))
-    builder.Connect(plant.get_state_output_port(wsg),
-                    wsg_controller.get_state_input_port())
-    builder.ExportInput(wsg_controller.get_desired_position_input_port(), 
-                        "wsg_position")
-    builder.ExportInput(wsg_controller.get_force_limit_input_port(),  
-                        "wsg_force_limit")
-    wsg_mbp_state_to_wsg_state = builder.AddSystem(
-        MakeMultibodyStateToWsgStateSystem())
-    builder.Connect(plant.get_state_output_port(wsg), 
-                    wsg_mbp_state_to_wsg_state.get_input_port())
-    builder.ExportOutput(wsg_mbp_state_to_wsg_state.get_output_port(), 
-                         "wsg_state_measured")
-    builder.ExportOutput(wsg_controller.get_grip_force_output_port(), 
-                         "wsg_force_measured")
+    # wsg_controller = builder.AddSystem(SchunkWsgPositionController())
+    # wsg_controller.set_name("wsg_controller")
+    # builder.Connect(
+    #     wsg_controller.get_generalized_force_output_port(),             
+    #     plant.get_actuation_input_port(wsg))
+    # builder.Connect(plant.get_state_output_port(wsg),
+    #                 wsg_controller.get_state_input_port())
+    # builder.ExportInput(wsg_controller.get_desired_position_input_port(), 
+    #                     "wsg_position")
+    # builder.ExportInput(wsg_controller.get_force_limit_input_port(),  
+    #                     "wsg_force_limit")
+    # wsg_mbp_state_to_wsg_state = builder.AddSystem(
+    #     MakeMultibodyStateToWsgStateSystem())
+    # builder.Connect(plant.get_state_output_port(wsg), 
+    #                 wsg_mbp_state_to_wsg_state.get_input_port())
+    # builder.ExportOutput(wsg_mbp_state_to_wsg_state.get_output_port(), 
+    #                      "wsg_state_measured")
+    # builder.ExportOutput(wsg_controller.get_grip_force_output_port(), 
+    #                      "wsg_force_measured")
 
     # Cameras.
     AddRgbdSensors(builder, plant, scene_graph)
@@ -125,4 +140,5 @@ def MakeManipulationStation(time_step=0.002):
                          "plant_continuous_state")
 
     diagram = builder.Build()
-    return diagram
+    return diagram, plant
+
