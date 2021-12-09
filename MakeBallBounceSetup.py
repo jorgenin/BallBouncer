@@ -29,10 +29,11 @@ def MakeManipulationStation(time_step=0.002):
     plant, scene_graph = AddMultibodyPlantSceneGraph(
         builder, time_step=time_step)
     iiwa = AddIiwa(plant)
+    
     #Remove the WSG Manipulator
     #wsg = AddWsg(plant, iiwa)
     # Set default positions:
-    q0 = [0.0, np.pi/4, 0, -1.2, 0, -np.pi/4, 0]
+    q0 = [0.0, .2, 0, -2*np.pi/3, 0,np.pi/3*2 -.2 - np.pi/2, 0]
     index = 0
     for joint_index in plant.GetJointIndices(iiwa):
         joint = plant.get_mutable_joint(joint_index)

@@ -3,7 +3,8 @@ import numpy as np
 
 
 from pydrake.all import (
-    MathematicalProgram, le, Solve,eq,ge,sin,cos
+    MathematicalProgram, le, Solve,eq,ge,sin,cos, LeafSystem,JacobianWrtVariable,RollPitchYaw, RotationMatrix,
+    BasicVector
 )
 
 #DYNAMICS FUNCTIONS
@@ -42,7 +43,7 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
 
     g = 9.81 #m/s^2
 
-    N = 10 #number of bounces
+   
 
     #q_m => x_m, z_m, theta_m, x_b, z_b, 
     # q_mdot => x_mdot, z_mdot, theta_mdot, x_bdot,z_bdot]
@@ -65,21 +66,21 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
     x_pos =np.ones((10,1))*.7
 
     #This is the constraints for the Z
-    prog.AddConstraint(ge(q_m[1,:],.3)).evaluator().set_description('Min Manip Z ')
-    prog.AddConstraint(le(q_m[1,:],.6)).evaluator().set_description('Max Manip Z ')
-    prog.AddConstraint(ge(q_m[0,:],.5)).evaluator().set_description('Min Manip X ')
-    prog.AddConstraint(le(q_m[0,:],.9)).evaluator().set_description('Max Manip X ')
+    prog.AddConstraint(ge(q_m[1,:],.8)).evaluator().set_description('Min Manip Z ')
+    prog.AddConstraint(le(q_m[1,:],1)).evaluator().set_description('Max Manip Z ')
+    prog.AddConstraint(ge(q_m[0,:],.3)).evaluator().set_description('Min Manip X ')
+    prog.AddConstraint(le(q_m[0,:],1)).evaluator().set_description('Max Manip X ')
 
     #Here are constraints for the Rotation
     prog.AddConstraint(le(q_m[2,:],np.pi/4)).evaluator().set_description('Max Manip theta ')
     prog.AddConstraint(ge(q_m[2,:],-np.pi/4)).evaluator().set_description('Min Manip theta ')
 
-    initialqb = [.5,0]
-    initialq_bdot = np.array([.2,5])
+    initialqb = [.7,0]
+    initialq_bdot = np.array([.1,5])
 
     #initialen = initialq_bdot.dot(initialq_bdot)*m/2
 
-    
+
     for i in range(N-1):
         NewPos, newVel = BounceManip2d(q_m[:,i],q_mdot[:,i],q_b[:,i],q_bdot[:,i],h[0,i],e,g)
         theta = q_m[2,i]
@@ -186,3 +187,41 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
 
     return h_res,q_m_res,q_mdot_res,q_b_res,q_bdot_res
 
+
+#We can write a new System by deriving from the LeafSystem class.
+# There is a little bit of boiler plate, but hopefully this example makes sense.
+class PseudoInverseController(LeafSystem):
+    def __init__(self, plant):
+        LeafSystem.__init__(self)
+        self._plant = plant
+        self._plant_context = plant.CreateDefaultContext()
+        self._iiwa = plant.GetModelInstanceByName("iiwa7")
+        self._G = plant.GetBodyByName("base_link").body_frame()
+        self._W = plant.world_frame()
+
+        self.v_G_port = self.DeclareVectorInputPort("v_WG", BasicVector(3))
+        self.q_port = self.DeclareVectorInputPort("iiwa_position", BasicVector(7))
+        self.DeclareVectorOutputPort("iiwa_velocity", BasicVector(7), 
+                                     self.CalcOutput)
+        # TODO(russt): Add missing binding
+        #joint_indices = plant.GetJointIndices(self._iiwa)
+        #self.position_start = plant.get_joint(joint_indices[0]).position_start()
+        #self.position_end = plant.get_joint(joint_indices[-1]).position_start()
+        self.iiwa_start = plant.GetJointByName("iiwa_joint_1").velocity_start()
+        self.iiwa_end = plant.GetJointByName("iiwa_joint_7").velocity_start()
+
+    def CalcOutput(self, context, output):
+       
+        V_G = self.v_G_port.Eval(context)
+        
+        q = self.q_port.Eval(context)
+        self._plant.SetPositions(self._plant_context, self._iiwa, q)
+        
+        J_G = self._plant.CalcJacobianSpatialVelocity(
+            self._plant_context, JacobianWrtVariable.kV, 
+            self._G, [0,0,0], self._W, self._W)
+
+            
+        J_G = J_G[:,self.iiwa_start:self.iiwa_end+1] # Only iiwa terms.
+        v = np.linalg.pinv(J_G).dot([0,V_G[2],0,V_G[0],0,V_G[1]])
+        output.SetFromVector(v)
