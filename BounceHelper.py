@@ -39,7 +39,7 @@ def BounceFloor2d(q_m,q_mdot,h,e,g):
 
 #OPTIMIZER
 
-def Optimizer2d(N,m=1,r=.1,e=.8):
+def Optimizer2d(N,m=1,r=.1,e=.95,initialV=5):
 
     g = 9.81 #m/s^2
 
@@ -53,7 +53,7 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
     prog = MathematicalProgram()
     h = prog.NewContinuousVariables(2,N,'h')
 
-
+    
     prog.AddBoundingBoxConstraint(0.001,10,h)
 
     q_m = prog.NewContinuousVariables(5,N,'q_m')
@@ -63,20 +63,20 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
     q_b = prog.NewContinuousVariables(2,N,'q_b')
     q_bdot = prog.NewContinuousVariables(2,N,'q_bdot')
 
-    x_pos =np.ones((10,1))*.7
+    x_pos =np.ones((N,1))*.8
 
     #This is the constraints for the Z
     prog.AddConstraint(ge(q_m[1,:],.8)).evaluator().set_description('Min Manip Z ')
-    prog.AddConstraint(le(q_m[1,:],1)).evaluator().set_description('Max Manip Z ')
-    prog.AddConstraint(ge(q_m[0,:],.3)).evaluator().set_description('Min Manip X ')
-    prog.AddConstraint(le(q_m[0,:],1)).evaluator().set_description('Max Manip X ')
+    prog.AddConstraint(le(q_m[1,:],1.2)).evaluator().set_description('Max Manip Z ')
+    prog.AddConstraint(ge(q_m[0,:],.5)).evaluator().set_description('Min Manip X ')
+    prog.AddConstraint(le(q_m[0,:],.9)).evaluator().set_description('Max Manip X ')
 
     #Here are constraints for the Rotation
     prog.AddConstraint(le(q_m[2,:],np.pi/4)).evaluator().set_description('Max Manip theta ')
     prog.AddConstraint(ge(q_m[2,:],-np.pi/4)).evaluator().set_description('Min Manip theta ')
 
-    initialqb = [.7,0]
-    initialq_bdot = np.array([.1,5])
+    initialqb = [.8,r]
+    initialq_bdot = np.array([.2,initialV])
 
     #initialen = initialq_bdot.dot(initialq_bdot)*m/2
 
@@ -97,8 +97,8 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
 
         tangentdist = np.array((q_m[3:5,i]-q_m[0:2,i])).dot(tangent)
         
-        prog.AddConstraint(tangentdist >= -.05).evaluator().set_description('Min Manip Distance '+ str(i))
-        prog.AddConstraint(tangentdist <= .05).evaluator().set_description('Max Manip Distance ' + str(i) )
+        prog.AddConstraint(tangentdist >= -.02).evaluator().set_description('Min Manip Distance '+ str(i))
+        prog.AddConstraint(tangentdist <= .02).evaluator().set_description('Max Manip Distance ' + str(i) )
 
         prog.AddLinearConstraint(q_mdot[0,i] >= -3)
         prog.AddLinearConstraint(q_mdot[1,i] <= 0)
@@ -117,7 +117,7 @@ def Optimizer2d(N,m=1,r=.1,e=.8):
         prog.AddConstraint(eq(q_bdot[:,i+1] , ball_floorVel)).evaluator().set_description('FloorPos ' + str(i) )
         prog.AddConstraint(q_b[1,i+1] == r).evaluator().set_description('Floor Bounce ' + str(i))
 
-        prog.AddCost(100*(q_b[0,i+1]-x_pos[i])**2)
+        prog.AddCost(0.1*(q_b[0,i+1]-x_pos[i])**2)
         #prog.AddCost(.1*q_bdot[0,i+1]**2)
 
         #energy= q_mdot[3:5,i].dot(q_mdot[3:5,i])*m/2 + q_m[4,i]*m*g

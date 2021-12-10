@@ -37,7 +37,7 @@ def clutter_gen():
     mu = 1.0
     ground_props = ProximityProperties()
     
-    AddContactMaterial(hydroelastic_modulus = 5.0e10,dissipation=0,friction=CoulombFriction(.01,.01) ,
+    AddContactMaterial(hydroelastic_modulus = 5.0e10,dissipation=.2,friction=CoulombFriction(.01,.01) ,
                        properties=ground_props)
     AddRigidHydroelasticProperties(ground_props)
     
